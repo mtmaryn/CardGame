@@ -57,3 +57,24 @@ void card::readCard(){
 
 	cout << "--------------------\n" << endl;
 }
+
+void card::placeCard(Status s){
+	switch(s){
+		case deck:
+			status = deck;
+			break;
+		case hand:
+			status = hand;
+			break;
+		case discard:
+			status = discard;
+			break;
+		default:
+			status = discard;
+			break;
+	}
+}
+
+Status card::cardStatus(){
+	return status;
+}

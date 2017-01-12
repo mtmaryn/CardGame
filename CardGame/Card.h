@@ -13,6 +13,8 @@ public:
 	card();
 	void writeCard(string, string, Status, Type);
 	void readCard();
+	void placeCard(Status);
+	Status cardStatus();
 protected:
 	string title;
 	string description;
