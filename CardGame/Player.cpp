@@ -1,20 +1,31 @@
-#include <iostream>
-#include <string>
 #include "Player.h"
 
-using namespace std;
-
-
 player::player(){
-	role = spectator;
+	name = "Person";
+	points = 0;
+	myHand = hand();
 }
 
-void player::setRole(person r){
-	role = r;
+player::player(string n, int p){
+	name = n;
+	points = p;
+	myHand = hand();
 }
 
-void player::playerInfo(){
-	cout << "\n--------------------" << endl;
-	cout << "Role: "<< role << endl;
-	cout << "--------------------\n" << endl;
+bool player::drawCard(deck& d){
+	myHand.addCard(d.drawTop());
+	return true;
+}
+
+effect player::playCard(int c, hand& d){
+	card f = myHand.thisCard(c);
+	effect e; 
+	e = f.getAbility();
+	d.addCard(f);
+	myHand.removeCard(f);
+	return e;
+}
+
+void player::lookAtHand(){
+	myHand.lookAtCards();
 }

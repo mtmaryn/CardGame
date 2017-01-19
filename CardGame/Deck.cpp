@@ -1,83 +1,94 @@
-#include <iostream>
-#include <string>
 #include "Deck.h"
 
-using namespace std;
-
-deckOfCards::deckOfCards(){
-	title = "deck";
-	description = "placeholder";
+deck::deck(){
 	size = 0;
-	topCard = 0;
 	cards.resize(size);
 }
 
-void deckOfCards::buildDeck(string ttl, string desc, int num){
-	title = ttl;
-	description = desc;
-	size = num;
-	cards.resize(size);
-}
-
-void deckOfCards::cardsInDeck(){
-	for(int i = 0; i < size;i++){
-		cards[i].readCard();
+void deck::addCards(hand& h){
+	while(!h.empty()){		
+		addCard(h.thisCard(h.howManyCards()-1));
+		h.removeCard(h.thisCard(h.howManyCards()-1));
 	}
 }
 
-void deckOfCards::whatDeck(){
-	cout << "\n--------------------" << endl;
-	cout << "Title: "<< title << endl;
-	cout << "Description: " << description << endl;
-	cout << "Cards in Deck: " << size << endl;
-	cout << "--------------------\n" << endl;
+bool deck::shuffle(){
+	shuffle1();
+	shuffle2();
+	shuffle2();
+	shuffle2();
+	shuffle2();
+	shuffle1();
+	return true;
 }
 
-void deckOfCards::addCard(card theCard){
-	cout << "Adding Card to Deck..." << endl;
-	size = size + 1;
-	cards.resize(size);
-	cards[size-1] = theCard;
-}
-
-void deckOfCards::shuffleDeck(){
-	cout << "Shuffling Deck..." << endl;
+void deck::shuffle1(){
 	srand ( unsigned ( std::time(0) ) );
 	random_shuffle ( cards.begin(), cards.end() );
-	topCard = 0;
 }
 
-void deckOfCards::shuffleDiscard(){
-	cout << "Putting Discard Pile Back into Deck..." << endl;
-	for(int i = 0; i < size;i++){	
-		if(cards[i].cardStatus() == discard)
-			cards[i].placeCard(deck);
+void deck::shuffle2(){
+	hand h1 = hand();
+	hand h2 = hand();
+	int ogSize = size;
+	while(size != 0){		
+		if(size > ogSize/2){
+			h1.addCard(cards[size-1]);
+			removeCard(cards[size-1]);
+		}else{
+			h2.addCard(cards[size-1]);
+			removeCard(cards[size-1]);
+		}
 	}
-	shuffleDeck();
+	while(size < ogSize){
+		if(!h1.empty()){
+			addCard(h1.thisCard(0));
+			h1.removeCard(h1.thisCard(0));
+		}
+		if(!h2.empty()){
+			addCard(h2.thisCard(0));
+			h2.removeCard(h2.thisCard(0));
+		}
+	}
 }
 
-void deckOfCards::drawCard(){
-	bool drewCard = false;
-	while(!drewCard){
-		if(topCard == size){
-			cout << "Out of Cards" << endl;
-			shuffleDiscard();
-		}
-		if(cards[topCard].cardStatus() == deck) {
-			cout << "Drawing..." << endl;
-			cards[topCard].placeCard(hand);
-			cards[topCard].readCard();
-			drewCard = true;
-		}
-		topCard++;
+card deck::drawTop(){
+	card topCard;
+	if(!empty()){
+		topCard = cards[0];
+		removeCard(topCard);
+		return topCard;
+	}
+	else{
+		cout << "No Cards in Deck..." << endl;
+		return topCard;
 	}
 }
 
-void deckOfCards::lookAtHand(){
-	cout << "Your hand..." << endl;
-	for(int i = 0; i< size; i++){
-		if(cards[i].cardStatus() == hand){
-			cards[i].readCard();
-		}
-	}
+void deck::createDeck(){
+	card guard = card(1,guess,"Guard","Name a non-Guard card\nand choose another player.\nIf that player has that card,\nhe or she is out of the round");
+	card priest = card(2,look,"Priest","Look at another player's hand.");
+	card baron = card(3,compare,"Baron","You and another player secretly\ncompare hands. The player with\n the lower value is out of the round.");
+	card handmaid = card(4,ignore,"Handmaid","Until your next turn, ignore all\neffects from other players' cards.");
+	card prince = card(5,draw,"Prince","Choose any player (including\nyourself) to discard his or her\nhand and draw a new card.");
+	card king = card(6,trade,"King","Trade hands with another\nplayer of your choice");
+	card countess = card(7,discard,"Countess","If you have this card and the\nKing or Prince in your hand,\nyou must discard this card.");
+	card princess = card(8,lose,"Princess","If you discard this card\nyou are out of the round");
+
+	addCard(guard);
+	addCard(guard);
+	addCard(guard);
+	addCard(guard);
+	addCard(guard);
+	addCard(priest);
+	addCard(priest);
+	addCard(baron);
+	addCard(baron);
+	addCard(handmaid);
+	addCard(handmaid);
+	addCard(prince);
+	addCard(prince);
+	addCard(king);
+	addCard(countess);
+	addCard(princess);
 }

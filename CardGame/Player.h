@@ -1,18 +1,18 @@
 #pragma once
-
-#include <iostream>
-#include <string>
+#include "Deck.h"
 
 using namespace std;
-
-enum person { dealer, participate, hero, dungeon_master, spectator };
-
 
 class player{
 public:
 	player();
-	void setRole(person);
-	void playerInfo();
+	player(string, int);
+	bool drawCard(deck&);
+	effect playCard(int,hand&);
+	void lookAtHand();
 protected:
-	person role;
+private:
+	hand myHand;
+	string name;
+	int points;
 };

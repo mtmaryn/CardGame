@@ -1,23 +1,24 @@
 #pragma once
-
 #include <iostream>
 #include <string>
 
 using namespace std;
 
-enum Status { deck, hand, discard };
-enum Type { location, monster, item };
+enum effect {guess,look,compare,ignore,draw,trade,discard,lose};
 
 class card{
 public:
 	card();
-	void writeCard(string, string, Status, Type);
+	card(int,effect,string,string);
 	void readCard();
-	void placeCard(Status);
-	Status cardStatus();
+	int getValue();
+	effect getAbility();
+
 protected:
-	string title;
+private:
+	int value;
+	effect ability;
+	string name;
 	string description;
-	Status status;
-	Type type;
+	
 };
