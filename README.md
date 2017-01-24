@@ -1,2 +1,2 @@
-# CardGame
-Concept for a Deck Builder. Coded in C++
+# LoveLetter
+The game Love Letter. Coded in C++
