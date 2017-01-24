@@ -29,3 +29,23 @@ effect player::playCard(int c, hand& d){
 void player::lookAtHand(){
 	myHand.lookAtCards();
 }
+
+card player::getCard(int i){
+	return myHand.thisCard(i);
+}
+
+void player::deleteCard(int i){
+	myHand.removeCard(myHand.thisCard(i));
+}
+void player::discardCard(int i, hand& dis){
+	dis.addCard(myHand.thisCard(i));
+	myHand.removeCard(myHand.thisCard(i));
+}
+
+int player::getCardValue(card c){
+	return c.getValue();
+}
+
+void player::addCard(card c){
+	myHand.addCard(c);
+}

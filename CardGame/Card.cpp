@@ -15,12 +15,12 @@ card::card(int v, effect a, string n, string d){
 }
 
 void card::readCard(){
-	cout << value;
-	//cout << "--------------------" << endl;
-	//cout << value << " " << name << endl;
-	//cout << "--------------------" << endl;
-	//cout << description << endl;
-	//cout << "--------------------\n" << endl;
+
+	cout << "--------------------" << endl;
+	cout << value << " " << name << endl;
+	cout << "--------------------" << endl;
+	cout << description << endl;
+	cout << "--------------------\n" << endl;
 }
 
 int card::getValue(){

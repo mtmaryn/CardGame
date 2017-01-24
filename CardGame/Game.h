@@ -9,15 +9,24 @@ public:
 	game();
 	void howManyPlayers(int);
 	void setup();
-	void turn(player);
+	void getEffect();
 protected:
 private:
-	player p1; 
-	player p2; 
-	player p3; 
-	player p4; 
+	player pl[4]; 
 	deck theDeck;
 	hand discardPile;
 	bool whoIsPlaying[4];
-	int winNumber;
+	bool winner[4];
+	int winNumber;	
+	void guess();
+	void look();
+	void compare(player&);
+	void ignore();
+	void draw();
+	void trade(player&);
+	void discard(player&);
+	void lose();
+	player& pickWho();
+
+
 };
