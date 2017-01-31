@@ -9,7 +9,7 @@ int main(){
 
 	TheGame.howManyPlayers(4);
 	TheGame.setup();	
-
+	TheGame.theGame();
 	return 0;
 }
 

@@ -37,13 +37,56 @@ void game::setup(){
 	}
 }
 
-void game::getEffect(player& you){
-	int play;
-	you.
-
+void game::theGame(){
+	turn(pl[0]);
 }
 
-void game::guess(){
+void game::turn(player& you){
+	you.drawCard(theDeck);
+	you.lookAtHand();
+	int choice;
+	cout << "[0]First card \n\tor \n[1] Second Card?" << endl;
+	cin >> choice;
+	cout << "You played " << endl;
+	you.getCard(choice).readCard();
+	theEffect(you.getCard(choice), you);
+	you.discardCard(choice,discardPile);
+}
+
+void game::theEffect(card c, player& p){
+	enum effect {guess,look,compare,ignore,draw,trade,discard,lose};
+	switch(c.getAbility()){
+	case guess:
+		guessWho();
+		break;
+	case look:
+		lookAt();
+		break;
+	case compare:
+		compareWith(p);
+		break;
+	case ignore:
+		ignoreEverything();
+		break;
+	case draw:
+		drawAndDiscard();
+		break;
+	case trade:
+		tradeWith(p);
+		break;
+	case discard:
+		void discardThis();
+		break;
+	case lose:
+		loseGame();
+		break;
+	default:
+		cout << "nothing" << endl;
+		break;
+	}
+}
+
+void game::guessWho(){
 	player p;
 	p = pickWho();
 	int what;
@@ -63,14 +106,14 @@ void game::guess(){
 	}
 }
 
-void game::look(){
+void game::lookAt(){
 	player p;
 	p = pickWho();
 	p.lookAtHand();
 	printf("\n");
 }
 
-void game::compare(player& you){
+void game::compareWith(player& you){
 	player p;
 	p = pickWho();
 	if(p.getCardValue(p.getCard(0)) > you.getCardValue(you.getCard(0))){
@@ -80,18 +123,18 @@ void game::compare(player& you){
 	}
 }
 
-void game::ignore(){
+void game::ignoreEverything(){
 	cout << "Protection until your next turn" << endl;
 }
 
-void game::draw(){
+void game::drawAndDiscard(){
 	player p;
 	p = pickWho();
 	p.discardCard(0,discardPile);
 	p.drawCard(theDeck);
 }
 
-void game::trade(player& you){
+void game::tradeWith(player& you){
 	card c;
 	cout << "Trade hands" << endl;
 	player p;
@@ -104,7 +147,7 @@ void game::trade(player& you){
 	p.deleteCard(0);
 }
 
-void game::discard(player& p){
+void game::discardThis(player& p){
 	cout << "Discard if caught with King or Prince" << endl;
 	if(p.getCardValue(p.getCard(0)) == 7)
 		p.discardCard(0, discardPile);
@@ -112,7 +155,7 @@ void game::discard(player& p){
 		p.discardCard(1,discardPile);
 }
 
-void game::lose(){
+void game::loseGame(){
 	cout << "Lose if discarded" << endl;
 }
 player& game::pickWho(){
